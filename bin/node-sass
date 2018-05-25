@@ -261,7 +261,7 @@ function watch(options, emitter) {
   gaze.on('error', emitter.emit.bind(emitter, 'error'));
 
   gaze.on('changed', function(file) {
-    handler(watcher.changed(file));
+    handler(watcher.changed(file, options));
   });
 
   gaze.on('added', function(file) {
@@ -293,6 +293,7 @@ function run(options, emitter) {
     if (!isDirectory(options.output)) {
       emitter.emit('error', 'An output directory must be specified when compiling a directory');
     }
+    options.sameInputAsOutput = path.resolve(options.directory) === path.resolve(options.output);
   }
 
   if (options.sourceMapOriginal && options.directory && !isDirectory(options.sourceMapOriginal) && options.sourceMapOriginal !== 'true') {
